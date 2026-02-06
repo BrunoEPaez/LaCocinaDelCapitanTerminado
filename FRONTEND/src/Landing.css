@@ -1,0 +1,228 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.main-scrollable {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 100px 24px;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+  width: 100%;
+  padding: 40px 0;
+  text-align: center;
+}
+
+
+
+/* --- GRILLA DE PRODUCTOS --- */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+  margin-top: 40px;
+}
+
+
+/* --- AJUSTE DE IMAGEN --- */
+.image-container {
+  position: relative; /* Cambiado de absolute para que no tape el texto si hay error */
+  width: 100%;
+  height: 250px;
+  background: #F4F1ED;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gamer-card:hover .image-container img {
+  transform: scale(1.1);
+  filter: brightness(0.7);
+}
+
+/* --- DEGRADADO REFORZADO PARA CONTRASTE NEUTRO --- */
+.gamer-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 85%; /* Sube más para proteger el texto */
+  background: linear-gradient(to top, 
+    rgba(5, 1, 16, 1) 0%, 
+    rgba(5, 1, 16, 0.85) 35%, 
+    rgba(5, 1, 16, 0.4) 60%,
+    transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* --- ETIQUETA DE PRECIO --- */
+.price-tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--neon-green);
+  color: black;
+  padding: 6px 12px;
+  font-family: 'Press Start 2P';
+  font-size: 10px;
+  z-index: 10;
+  box-shadow: 0 0 10px var(--neon-green);
+  border-radius: 2px;
+}
+
+/* --- TEXTOS (CONTRASTE MEJORADO) --- */
+.gamer-card h3, .company, .buy-button {
+  position: relative;
+  z-index: 3;
+  padding: 0 20px;
+}
+
+
+
+/* --- BOTONES --- */
+.filter-btn:hover {
+  background: #3E2723 !important;
+  color: #F4F1ED !important;
+}
+
+
+/* --- ESTADOS DE CARGA --- */
+.loading-text {
+  font-family: 'Press Start 2P';
+  text-align: center;
+  margin-top: 100px;
+  color: var(--neon-blue);
+  animation: colorCycle 2s infinite linear;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .glitch { font-size: 2.5rem; }
+  .items-grid { grid-template-columns: 1fr; padding: 10px; }
+}
+
+.price-container {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  font-family: 'Press Start 2P';
+}
+
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); box-shadow: 0 0 15px var(--neon-pink); }
+  100% { transform: scale(1); }
+}
+
+/* Eliminamos animaciones neón que ya no van */
+@keyframes colorCycle {
+  0% { color: #3E2723; }
+  50% { color: #8D6E63; }
+  100% { color: #3E2723; }
+}
+
+/* --- LA TARJETA (Estilo Menú Pizarra) --- */
+.gamer-card {
+  background: #FFFFFF !important;
+  border: 1px solid var(--border-color);
+  border-radius: 12px; /* Más redondeado para comida */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.gamer-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 10px 20px rgba(211, 47, 47, 0.15);
+}
+
+/* El h3 (Nombre del Plato) */
+.gamer-card h3 {
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 700 !important;
+  color: var(--text-dark) !important;
+  font-size: 1.4rem !important;
+  padding: 10px 20px 0 20px !important;
+}
+
+/* La categoría (Empanadas, Pizzas, etc) */
+.company {
+  color: var(--color-primary) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+/* Botón de compra (Rojo Roticería) */
+.buy-button {
+  background: var(--color-primary) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-family: 'Inter' !important;
+  font-weight: 700;
+  font-size: 11px !important;
+}
+
+.buy-button:hover {
+  background: #B71C1C !important;
+  transform: scale(1.02);
+}
+
+/* El precio ahora es Rojo y grande */
+.current-price {
+  background: var(--color-accent) !important;
+  color: var(--text-dark) !important;
+  border-radius: 8px 0 0 8px !important;
+  font-weight: 900 !important;
+}
+
+.discount-badge {
+  background: var(--color-primary) !important; /* Rojo para ofertas */
+  border-radius: 4px;
+}
+
+.glitch {
+  font-family: 'Playfair Display' !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  color: var(--text-dark);
+  letter-spacing: -1px;
+  animation: none !important; /* Quitamos el parpadeo */
+}
+
+.hero-subtitle {
+  font-family: 'Inter' !important;
+  color: var(--color-primary) !important;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
