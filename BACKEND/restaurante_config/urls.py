@@ -1,7 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path # Añadimos re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve # Añadimos serve para producción
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -29,8 +30,14 @@ urlpatterns = [
     path('api/checkout/', checkout, name='checkout'), 
 ]
 
-# --- ARCHIVOS ESTÁTICOS Y MULTIMEDIA ---
-# Al quitar el "if settings.DEBUG", nos aseguramos de que Render 
-# sirva las imágenes de la carpeta media en producción.
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# --- ARCHIVOS ESTÁTICOS Y MULTIMEDIA EN PRODUCCIÓN (RENDER) ---
+# Usamos re_path y serve para forzar a Django a servir media cuando DEBUG=False
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+]
+
+# Por si acaso estás en local con DEBUG=True, mantenemos la configuración estándar
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
