@@ -40,7 +40,7 @@ const AdminPanel = ({ products, isMaintenance, setIsMaintenance }: any) => {
 
   const fetchSales = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/sales/');
+      const res = await axios.get(${import.meta.env.VITE_API_URL}/api/sales/);
       setSales(res.data || []);
     } catch (e) {
       console.error("Error cargando ventas", e);
@@ -98,8 +98,8 @@ const AdminPanel = ({ products, isMaintenance, setIsMaintenance }: any) => {
 
     try {
       const url = isEditing && editingId 
-        ? `http://localhost:8000/api/platos/${editingId}/` 
-        : 'http://localhost:8000/api/platos/';
+        ? `https://lacocinadelcapitan.onrender.com/api/platos/${editingId}/` 
+        : 'https://lacocinadelcapitan.onrender.com/api/platos/';
 
       if (isEditing) {
         await axios.put(url, formData);
@@ -119,7 +119,7 @@ const AdminPanel = ({ products, isMaintenance, setIsMaintenance }: any) => {
   const nuevoEstado = !isMaintenance;
   try {
     // Enviamos el cambio al servidor
-    await axios.post(`http://localhost:8000/api/settings/maintenance/`, { 
+    await axios.post(`https://lacocinadelcapitan.onrender.com/api/settings/maintenance/`, { 
       value: nuevoEstado 
     });
     // Actualizamos el estado global en React
@@ -134,7 +134,7 @@ const AdminPanel = ({ products, isMaintenance, setIsMaintenance }: any) => {
   const handleDelete = async (id: number) => {
     if (window.confirm("¿QUITAR ESTE PLATO DE LA CARTA?")) {
       try {
-        await axios.delete(`http://localhost:8000/api/platos/${id}/`);
+        await axios.delete(`https://lacocinadelcapitan.onrender.com/api/platos/${id}/`);
         window.location.reload();
       } catch (error) {
         alert("ERROR AL ELIMINAR");
@@ -279,7 +279,7 @@ const AdminPanel = ({ products, isMaintenance, setIsMaintenance }: any) => {
                   <td style={{ padding: '15px', color: '#FFCC80', fontWeight: 'bold' }}>#{p.id}</td>
                   <td>
                     {p.image ? (
-                      <img src={p.image.startsWith('http') ? p.image : `http://localhost:8000${p.image}`} width="50" height="50" style={{ objectFit: 'cover', borderRadius: '5px', border: '1px solid #444' }} alt={p.name} />
+                      <img src={p.image.startsWith('http') ? p.image : `https://lacocinadelcapitan.onrender.com${p.image}`} width="50" height="50" style={{ objectFit: 'cover', borderRadius: '5px', border: '1px solid #444' }} alt={p.name} />
                     ) : (
                       <div style={{ width: 50, height: 50, background: '#1A1A1A', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#555' }}>SIN FOTO</div>
                     )}

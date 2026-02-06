@@ -32,13 +32,13 @@ const AuthPage = () => {
       if (!isLogin) {
         // --- REGISTRO ---
         // En Django la ruta suele ser /api/register/ (no olvides el / al final)
-        const response = await axios.post('http://localhost:8000/api/register/', userData);
+        const response = await axios.post(${import.meta.env.VITE_API_URL}/api/register/, userData);
         localStorage.setItem('gentleman-user', JSON.stringify(response.data));
         alert("¡CUENTA CREADA EXITOSAMENTE!");
       } else {
         // --- LOGIN ---
         // Si usas Simple JWT de Django, la ruta estándar es:
-        const response = await axios.post('http://localhost:8000/api/token/', {
+        const response = await axios.post(${import.meta.env.VITE_API_URL}/api/token/, {
             username: email, // Django por defecto usa 'username'
             password: password
         });

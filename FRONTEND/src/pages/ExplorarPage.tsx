@@ -121,7 +121,7 @@ const ExplorarPage = ({ products, addToCart, cart, isMaintenance, loading }: any
 
                       <Link to={`/producto/${p.id}`} className="image-wrapper" style={{ display: 'block', height: '220px', overflow: 'hidden' }}>
                         <img 
-                          src={p.image?.startsWith('http') ? p.image : `http://localhost:8000${p.image}`} 
+                          src={p.image?.startsWith('http') ? p.image : `https://lacocinadelcapitan.onrender.com${p.image}`} 
                           alt={p.name} 
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />

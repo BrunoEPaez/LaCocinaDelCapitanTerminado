@@ -9,8 +9,9 @@ const CheckoutPage = ({ cart, removeFromCart, clearCart, fetchProducts }: any) =
   const [telefono, setTelefono] = useState('');
   const navigate = useNavigate();
   
-  const API_BASE_URL = "http://localhost:8000";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://lacocinadelcapitan.onrender.com";
 
+  
   // Calcular subtotal de productos
   const subtotal = cart.reduce((acc: number, item: any) => {
     const basePrice = Number(item.price) || 0;

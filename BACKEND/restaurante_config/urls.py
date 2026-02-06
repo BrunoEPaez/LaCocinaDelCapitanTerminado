@@ -10,8 +10,8 @@ from menu.views import PlatoViewSet, VentaViewSet, toggle_maintenance, checkout,
 
 # 1. Configuramos el Router para las APIs automáticas
 router = DefaultRouter()
-router.register(r'platos', PlatoViewSet, basename='plato') # Crea /api/platos/
-router.register(r'sales', VentaViewSet, basename='venta')  # Crea /api/sales/
+router.register(r'platos', PlatoViewSet, basename='plato') 
+router.register(r'sales', VentaViewSet, basename='venta')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,7 +22,7 @@ urlpatterns = [
     path('api/register/', register_user, name='register'),
 
     # --- API ---
-    path('api/', include(router.urls)), # Incluye platos y sales
+    path('api/', include(router.urls)), 
     path('api/settings/maintenance/', toggle_maintenance, name='maintenance'),
     
     # --- RUTA DE COMPRA (CHECKOUT) ---
@@ -30,7 +30,7 @@ urlpatterns = [
 ]
 
 # --- ARCHIVOS ESTÁTICOS Y MULTIMEDIA ---
-# Esto permite que Django "entregue" las fotos de los platos en tu PC local
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# Al quitar el "if settings.DEBUG", nos aseguramos de que Render 
+# sirva las imágenes de la carpeta media en producción.
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

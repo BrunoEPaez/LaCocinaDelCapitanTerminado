@@ -62,7 +62,7 @@ export default function App() {
   // --- 2. FUNCIONES DE CARGA ---
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/platos/');
+      const response = await axios.get(${import.meta.env.VITE_API_URL}/api/platos/);
       setProducts(response.data);
     } catch (error) {
       console.error("Error productos:", error);
@@ -74,7 +74,7 @@ export default function App() {
   // App.tsx - Línea 75 aproximadamente
 const checkMaintenance = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/settings/maintenance/');
+    const response = await axios.get(${import.meta.env.VITE_API_URL}/api/settings/maintenance/);
     // CAMBIO IMPORTANTE: Usar .value porque así lo envía tu views.py
     const estadoReal = response.data.value; 
     
@@ -135,7 +135,7 @@ const addToCart = (product: any, selectedSize: string = "Único") => {
 
 const handleLogin = async (email, password) => {
   try {
-    const res = await axios.post('http://localhost:8000/api/login', { email, password });
+    const res = await axios.post(${import.meta.env.VITE_API_URL}/api/login, { email, password });
     const user = res.data;
     
     // Guardamos el usuario (esto es lo que habilita que isAdmin sea true o que el panel cargue)

@@ -56,7 +56,7 @@ const LandingPage = ({ products, loading, addToCart, cart, isMaintenance }: any)
           alignItems: 'center'
         }}>
           <img 
-            src="http://localhost:8000/media/imagen/capitan.png"
+            src="https://lacocinadelcapitan.onrender.com/media/imagen/capitan.png"
             alt="Capitán Cocinando" 
             style={{
               width: '100%',
@@ -133,7 +133,7 @@ const LandingPage = ({ products, loading, addToCart, cart, isMaintenance }: any)
                 }}>
                   <Link to={`/producto/${p.id}`} style={{ display: 'block', height: '220px', overflow: 'hidden' }}>
                     <img 
-                      src={p.image?.startsWith('http') ? p.image : `http://localhost:8000${p.image}`} 
+                      src={p.image?.startsWith('http') ? p.image : `https://lacocinadelcapitan.onrender.com${p.image}`} 
                       alt={p.name} 
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
