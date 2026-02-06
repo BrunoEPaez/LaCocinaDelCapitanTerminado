@@ -27,4 +27,4 @@ COPY . .
 RUN python manage.py collectstatic --no-input
 
 # Comando para arrancar la app
-CMD ["gunicorn", "restaurante_config.wsgi:application", "--bind", "0.0.0.0:10000"]
+CMD python manage.py migrate --noinput && gunicorn restaurante_config.wsgi:application --bind 0.0.0.0:$PORT
