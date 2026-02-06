@@ -62,7 +62,7 @@ export default function App() {
   // --- 2. FUNCIONES DE CARGA ---
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(${import.meta.env.VITE_API_URL}/api/platos/);
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/platos/`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error productos:", error);
@@ -74,7 +74,7 @@ export default function App() {
   // App.tsx - Línea 75 aproximadamente
 const checkMaintenance = async () => {
   try {
-    const response = await axios.get(${import.meta.env.VITE_API_URL}/api/settings/maintenance/);
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/settings/maintenance/`);
     // CAMBIO IMPORTANTE: Usar .value porque así lo envía tu views.py
     const estadoReal = response.data.value; 
     
