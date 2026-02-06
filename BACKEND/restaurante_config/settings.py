@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url  # Recomendado para Render
+import dj_database_url
 
 load_dotenv()
 
@@ -11,13 +11,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --- CONFIGURACIÓN DE SEGURIDAD ---
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-cambiame')
 
-# En Render, DEBUG debe ser False. Localmente será True si lo pones en el .env
+# En Render, DEBUG debe ser False.
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# Permitir localhost y el dominio de Render (el '*' permite todos, útil para el despliegue inicial)
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
-if not DEBUG:
-    ALLOWED_HOSTS.append('.render.com')
+# 1. CORRECCIÓN DE ALLOWED HOSTS
+ALLOWED_HOSTS = [
+    'lacocinadelcapitan.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    '.render.com'
+]
+
+# Si tienes un dominio personalizado en el .env, lo agregamos
+env_hosts = os.getenv('ALLOWED_HOSTS')
+if env_hosts:
+    ALLOWED_HOSTS.extend(env_hosts.split(','))
 
 # --- APLICACIONES ---
 INSTALLED_APPS = [
@@ -27,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
+    'corsheaders',  # Requisito para CORS
     'rest_framework',
     'api',
     'menu',
@@ -35,9 +43,9 @@ INSTALLED_APPS = [
 
 # --- MIDDLEWARE ---
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # DEBE IR PRIMERO
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # <--- CRITICO PARA RENDER
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Para archivos estáticos en Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -46,13 +54,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# --- CORS ---
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # En desarrollo permite todo, en producción puedes restringir
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:5173",
+# --- 2. CORRECCIÓN DE CORS ---
+# Permitimos todo durante la fase de despliegue para evitar bloqueos
+CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_CREDENTIALS = True
+
+# 3. CORRECCIÓN DE CSRF (Necesario para Auth y Checkout)
+CSRF_TRUSTED_ORIGINS = [
+    "https://lacocinadelcapitanterminado.pages.dev",
+    "https://lacocinadelcapitan.onrender.com"
 ]
 
 ROOT_URLCONF = 'restaurante_config.urls'
@@ -75,7 +85,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'restaurante_config.wsgi.application'
 
 # --- BASE DE DATOS ---
-# Si hay una DATABASE_URL (Render), la usa. Si no, usa la local de Postgres.
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL', 'postgresql://postgres:123456@127.0.0.1:5432/restaurante_django'),
@@ -92,23 +101,20 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # --- INTERNACIONALIZACIÓN ---
-LANGUAGE_CODE = 'es-ar' # Cambiado a español Argentina
+LANGUAGE_CODE = 'es-ar'
 TIME_ZONE = 'America/Argentina/Buenos_Aires'
 USE_I18N = True
 USE_TZ = True
-
 
 # --- ARCHIVOS ESTÁTICOS Y MEDIA ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Solo usamos el almacenamiento especial de Whitenoise si NO estamos en DEBUG
+# Configuración para servir archivos estáticos eficientemente en producción
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
