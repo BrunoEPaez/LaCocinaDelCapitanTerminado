@@ -40,7 +40,7 @@ const AdminPanel = ({ products, isMaintenance, setIsMaintenance }: any) => {
 
   const fetchSales = async () => {
     try {
-      const res = await axios.get(${import.meta.env.VITE_API_URL}/api/sales/);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/sales/`);
       setSales(res.data || []);
     } catch (e) {
       console.error("Error cargando ventas", e);
