@@ -135,8 +135,7 @@ const addToCart = (product: any, selectedSize: string = "Único") => {
 
 const handleLogin = async (email, password) => {
   try {
-    const res = await axios.post(${import.meta.env.VITE_API_URL}/api/login, { email, password });
-    const user = res.data;
+  const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/token/`, { email, password });    const user = res.data;
     
     // Guardamos el usuario (esto es lo que habilita que isAdmin sea true o que el panel cargue)
     localStorage.setItem('gentleman-user', JSON.stringify(user));
